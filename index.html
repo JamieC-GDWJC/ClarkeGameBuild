@@ -3,102 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Unity Web Player | Mixtape Rugby</title>
-
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #00a085;
-    }
-
-    #unity-canvas {
-      width: 100vw;
-      height: 100vh;
-      background: no-repeat top center;
-      background-size: contain;
-      display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
-    }
-
-    @media screen and (orientation: portrait) {
-      #unity-canvas {
-        width: 100%;
-        height: 100%;
-      }
-    }
-
-    @media screen and (orientation: landscape) {
-      #unity-canvas {
-        width: 100vh;
-        height: 100vh;
-        left: calc(50vw - 50vh);
-      }
-    }
-  </style>
-
-  <script type='text/javascript'>
-    document.ontouchstart = function() {window.focus();};
-    document.onmousedown = function() {window.focus();};
-  </script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const canvas = document.querySelector("#unity-canvas");
-
-      // WebGL context loss prevention
-      canvas.addEventListener('webglcontextlost', (event) => event.preventDefault(), false);
-
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        const hideInputFields = (target) => {
-          target.style.position = "absolute";
-          target.style.top = "-999px";
-          target.style.left = "-999px";
-          target.style.opacity = 0;
-        };
-
-        const resetAllInputs = () => {
-          document.querySelectorAll('input, textarea').forEach((input) => {
-            hideInputFields(input);
-          });
-        };
-
-        document.addEventListener('focusin', function (event) {
-          if (['input', 'textarea'].includes(event.target.tagName.toLowerCase())) {
-            resetAllInputs();
-            hideInputFields(event.target);
-          }
-        });
-
-        document.addEventListener('focusout', function (event) {
-          if (['input', 'textarea'].includes(event.target.tagName.toLowerCase())) {
-            hideInputFields(event.target);
-          }
-        });
-
-
-        window.visualViewport.addEventListener('resize', function () {
-
-          if (window.visualViewport.height < window.innerHeight) {
-            canvas.style.height = window.visualViewport.height + 'px';
-            canvas.style.top = '0';
-          } else {
-            canvas.style.height = window.innerHeight + 'px';
-          }
-        });
-
-
-      }
-    });
-
-    // Function to force redraw on canvas (fix resizing issues)
-    function forceCanvasRedraw(canvas) {
-      canvas.width += 1; // Temporary change to force redraw
-      canvas.width -= 1;
-    }
-  </script>
+  <title>Unity Web Player | Clarke Games</title>
 </head>
 
 <body>
@@ -107,37 +12,7 @@
 <script src="Build/Build.framework.js.br"></script>
 
 <script>
-  function resizeCanvas() {
-    const canvas = document.querySelector("#unity-canvas");
-
-    if (window.innerWidth > window.innerHeight) {
-      const size = window.innerHeight;
-      canvas.style.width = size + 'px';
-      canvas.style.height = size + 'px';
-      canvas.style.left = (window.innerWidth - size) / 2 + 'px';
-      canvas.style.top = '0';
-    } else {
-      canvas.style.width = window.innerWidth + 'px';
-      canvas.style.height = window.innerHeight + 'px';
-      canvas.style.left = '0';
-      canvas.style.top = '0';
-    }
-
-    if (window.unityInstance && window.unityInstance.Module) {
-      const moduleCanvas = window.unityInstance.Module.canvas;
-      moduleCanvas.width = parseInt(canvas.style.width);
-      moduleCanvas.height = parseInt(canvas.style.height);
-      moduleCanvas.style.width = canvas.style.width;
-      moduleCanvas.style.height = canvas.style.height;
-    }
-
-    // Force canvas redraw to ensure proper rendering
-    forceCanvasRedraw(canvas);
-  }
-
-  window.addEventListener('resize', resizeCanvas);
-  window.addEventListener('orientationchange', resizeCanvas);
-  resizeCanvas();
+  
 
   // Meta tag for mobile viewport settings
   if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -161,18 +36,7 @@
   }).then((unityInstance) => {
     window.unityInstance = unityInstance;
   });
-
-  // Screen orientation lock
-  function lockOrientation() {
-    if (screen.orientation && screen.orientation.lock) {
-      screen.orientation.lock('portrait').catch(function (error) {
-        console.log('Screen orientation lock not supported:', error);
-        resizeCanvas(); // Fallback to resizing canvas manually
-      });
-    }
-  }
-
-  lockOrientation();
+  
 </script>
 
 
